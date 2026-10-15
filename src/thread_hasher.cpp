@@ -50,6 +50,9 @@ thread_hasher::thread_hasher(
     ),
     _func(
         other._func
+    ),
+    _args(
+        other._args
     )
 {
     other._thread = std::jthread(
@@ -58,8 +61,6 @@ thread_hasher::thread_hasher(
         std::get<1>(other._args),
         std::get<2>(other._args)
     );
-
-    _args = other._args;
 }
 
 thread_hasher::thread_hasher(
@@ -78,10 +79,7 @@ _func(
 _args(
     std::move(other._args)
 )
-{
-    other._func = nullptr;
-    other._id = 0ull;
-}
+{}
 
 thread_hasher& thread_hasher::operator= (
     const thread_hasher& other
@@ -92,6 +90,7 @@ thread_hasher& thread_hasher::operator= (
         _thread = std::move(other._thread);
         _id = other._id;
         _func = other._func;
+        _args = other._args;
 
         other._thread = std::jthread(
             _func,
@@ -99,7 +98,6 @@ thread_hasher& thread_hasher::operator= (
             std::get<1>(other._args),
             std::get<2>(other._args)
         );
-        _args = other._args;
     }
 
     return *this;
@@ -115,9 +113,6 @@ thread_hasher& thread_hasher::operator= (
         _id = other._id;
         _func = other._func;
         _args = other._args;
-
-        _id = 0ull;
-        _func = nullptr;
     }
     return *this;
 }
