@@ -117,7 +117,7 @@ void socket_handler::_M_stop() {
     }
 }
 
-void server_detail::_deal_with_signal(int signal) {
+void server_detail::_deal_with_signal([[maybe_unused]] int signal) {
     for (
         socket_handler& sock : socket_handler::global_socket_holder
     ) {
@@ -213,7 +213,7 @@ void socket_handler::startup_socket(
         std::stop_token jthr_token,
         int client_socket,
         std::string_view client_ip
-    ) -> void {
+    ) static -> void {
         while (
             !jthr_token.stop_requested()
         ) {
